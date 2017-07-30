@@ -1,0 +1,197 @@
+a,p,span{font-size: 16px; font-weight: 400;}
+strong{font-size: 18px; font-weight:500;}
+div.navbar-header img{
+    width: 250px;
+
+}
+div.logo-img{
+  float:left;
+}
+
+div.navbar-header{
+  float: none !important;
+  margin: 0px auto;
+}
+
+.navbar-nav a{
+  color: #111 !important;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#main-menu{
+    background: white !important;
+    border-bottom: 2px solid #333;
+}
+/*
+.slider-content{
+  float:right;
+  text-align: right;
+}
+ */
+
+
+#main-slider{
+    max-width: 1200px;
+    margin: 0px auto;
+
+}
+
+.basic-requirements{
+  display: block;
+}
+
+.phases-of-course, .outline-of-course{
+  display: none;
+}
+
+div.min_height{
+  min-height: 200px;
+}
+
+div.centerForced{
+  float: none !important;
+  clear: both;
+  margin: 0px auto !important;
+}
+
+.pSameHeight{
+      min-height: 270px;
+}
+
+@media screen and (max-width: 800px){
+  section{
+    padding: 0px !important;
+  }
+}
+
+@media screen and (max-width: 480px){
+  section{
+    padding: 0px !important;
+  }
+  ul.portfolio-filter li a{
+    font-size: 10px !important;
+  }
+  #main-slider{
+    display: none;
+  }
+}
+
+.support{
+  width: 48%;
+  clear: both;
+  float: left;
+  padding: 0px !important;
+}
+
+.image-fam{
+  height: 400px !important;
+  margin-top: 100px;
+  margin-left: 20px;
+}
+.slider-content{
+  width: 49%;
+  margin-top: 100px !important;
+
+
+}
+
+
+.h2-no-margin{
+  margin-top: 50px !important;
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+.slider-inner .container{
+  text-align: center;
+  height: 500px !important;
+  background: #fff;
+}
+
+
+.slider-text-content{
+  color: black;
+  font-size: 20px;
+  width: 90%;
+  margin: 20px auto;
+
+}
+
+.h2-small-text{
+  font-size: 25px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.h2-red{
+  color: red !important;
+}
+.and-sign{
+  margin-top: 50px;
+  font-size: 50px;
+  color: #333;
+}
+
+
+.strong-logo{
+  color: #365F91;
+}
+
+
+.panel-body li a{
+  color: #333;
+}
+
+strong.bigger-size{
+  font-size: 43px;
+}
+
+.about-cars img{
+  width:100%;
+  float: left;
+  display:block;
+
+}
+
+
+.about-cars .car2{
+  
+  border-right: 1px solid #999;
+}
+
+
+li a{
+  color: #111;
+}
+
+.well{
+  background-color: #fff;
+  border: none;
+}
+
+iframe#map-frame{
+  width: 100%;
+  height: 400px;
+}
+
+#success_message{ display: none;}
+
+
+.contact-info-address{
+  border-left: 1px solid #f2f2f2;
+  border-top: 1px solid #f2f2f2;
+  padding-top: 10px;
+}
+
+.input-group-addon{
+  background-color:#365F91;
+  color: white;
+}
+
+.btn-warning{
+  background-color: #365F91;
+  border-color: #4866CF;
+  float: right;
+}

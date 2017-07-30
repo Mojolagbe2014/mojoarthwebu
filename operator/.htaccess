@@ -1,0 +1,18 @@
+ServerSignature Off
+
+#Default Language Settings
+DefaultLanguage en
+
+#Disable directory listing 
+Options All -Indexes
+
+RewriteEngine on
+
+RewriteCond %{HTTPS} off
+
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteCond %{REQUEST_FILENAME}\.php -f
+
+RewriteRule ^([^/]+)/?$ $1.php [NC,L]
+
