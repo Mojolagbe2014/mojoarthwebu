@@ -37,7 +37,7 @@ class Data implements ContentManipulator{
      * @return JSON JSON encoded string/result
      */
     public function add(){
-        $sql = "INSERT INTO ".self::$tableName." (client_id, bed_id, patient_id, status, created_at, status) "
+        $sql = "INSERT INTO ".self::$tableName." (client_id, bed_id, patient_id, status, created_at) "
                 ."VALUES ('{$this->clientId}','{$this->bedId}','{$this->patientId}','{$this->status}',$this->createdAt)";
         if($this->notEmpty($this->clientId,$this->bedId)){
             $result = self::$dbObj->query($sql);
