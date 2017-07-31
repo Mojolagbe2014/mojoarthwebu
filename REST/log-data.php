@@ -8,11 +8,11 @@ $dbObj = new Database();//Instantiate database
 $dataObj = new Data($dbObj); // Create an object of Data class
 $errorArr = array(); //Array of errors
 
-if(filter_input(INPUT_GET, "addNewData") != NULL){
+if(filter_input(INPUT_POST, "addNewData") != NULL){
     $postVars = array('clientId','bedId','patientId','createdAt','status'); 
     foreach ($postVars as $postVar){
         switch($postVar){
-            default     :   $dataObj->$postVar = filter_input(INPUT_GET, $postVar) ? mysqli_real_escape_string($dbObj->connection, filter_input(INPUT_GET, $postVar)) :  ''; 
+            default     :   $dataObj->$postVar = filter_input(INPUT_POST, $postVar) ? mysqli_real_escape_string($dbObj->connection, filter_input(INPUT_POST, $postVar)) :  ''; 
                             if($dataObj->$postVar === "") {array_push ($errorArr, "Please enter $postVar ");}
                             break;
         }

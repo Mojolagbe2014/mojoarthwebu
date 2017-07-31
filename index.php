@@ -33,7 +33,7 @@ $thisPage->dbObj = $dbObj;
                     formData = {addNewData: true, clientId: 1, bedId: 1, patientId: 1, createdAt: timstmp,status: getRandomInt(1,4)};
                     
                     $.ajax({
-                        type: 'GET',
+                        type: 'POST',
                         url: siteRoot,
                         data: formData,//{addNewData: 'true', clientId: '1', bedId: '1', patientId: '1', createdAt: Math.round((new Date()).getTime() / 1000),status: getRandomInt(1,4)},
                         dataType: 'json',
