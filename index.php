@@ -40,7 +40,7 @@ $thisPage->dbObj = $dbObj;
                         success: function (data) {
                             console.log(data);
                             var formatted = (new Date(timstmp*1000)).toUTCString();
-                            $('#content').append('<li>@'+formatted+' => '+data.msg+'</li>');
+                            $('#content').prepend('<li>@'+formatted+' => '+data.msg+'</li>');
                         },
                         error : function(xhr, status) {
                             erroMsg = '';
