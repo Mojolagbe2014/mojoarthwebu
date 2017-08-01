@@ -268,7 +268,7 @@ class User implements ContentManipulator{
                 $result[] = array("id" => $r['id'], "clientId" =>  utf8_encode($r['client_id']), 'name' =>  utf8_encode($r['name']), 'email' =>  utf8_encode($r['email']), 'address' =>  utf8_encode($r['address']), 'picture' =>  utf8_encode($r['picture']), 'username' =>  utf8_encode($r['username']));
             }
             $json = array("status" => 1, "info" => $result);
-        } else{ $json = array("status" => 2, "msg" => "Login details incorrect. ".mysqli_error(self::$dbObj->connection)); }
+        } else{ $json = array("status" => 2, "msg" => "<strong>ACCESS DENIED !!!</strong> <br/><u>Reason</u>: Login details in-correct. ".mysqli_error(self::$dbObj->connection)); }
         self::$dbObj->close();
         if(array_key_exists('callback', $_GET)){
             header('Content-Type: text/javascript'); header('Access-Control-Allow-Origin: *'); header('Access-Control-Max-Age: 3628800'); header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
@@ -281,7 +281,7 @@ class User implements ContentManipulator{
      */
     private function pwdExists(){
         $sql =  "SELECT * FROM ".self::$tableName." WHERE password = '".md5($this->password)."' AND id = $this->id LIMIT 1 ";
-        $result = $this->dbObj->fetchAssoc($sql);
+        $result = self::$dbObj->fetchAssoc($sql);
         if($result != false){ return true; }
         else{ return false;    }
     } 
@@ -294,12 +294,12 @@ class User implements ContentManipulator{
         $sql = "UPDATE ".self::$tableName." SET password = '".md5($newPassword)."' WHERE id = $this->id ";
         $pwdExists = $this->pwdExists();//Check if old password is correct
         if($pwdExists==TRUE){
-            $result = $this->dbObj->query($sql);
+            $result = self::$dbObj->query($sql);
             if($result !== false){ $json = array("status" => 1, "msg" => "Done, user password successfully updated!"); }
-            else{ $json = array("status" => 2, "msg" => "Error updating user password! ".  mysqli_error($this->dbObj->connection));   }
+            else{ $json = array("status" => 2, "msg" => "Error updating user password! ".  mysqli_error(self::$dbObj->connection));   }
         }
         else{ $json = array("status" => 3, "msg" => "Old password you typed is incorrect. Please retype old password."); }
-        $this->dbObj->close();
+        self::$dbObj->close();
         if(array_key_exists('callback', $_GET)){
             header('Content-Type: text/javascript'); header('Access-Control-Allow-Origin: *'); header('Access-Control-Max-Age: 3628800'); header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
             return $_GET['callback'].'('.json_encode($json).');';
@@ -312,12 +312,12 @@ class User implements ContentManipulator{
     public function resetPassword(){
         $sql = "UPDATE ".self::$tableName." SET password = '".md5($this->password)."' WHERE email = '$this->email' ";
         if($this->emailExists()){
-            $result = $this->dbObj->query($sql);
+            $result = self::$dbObj->query($sql);
             if($result != false){ $json = array("status" => 1, "msg" => "Done, password successfully reset! An email has been sent to you."); }
-            else{ $json = array("status" => 2, "msg" => "Error reseting  password! ".  mysqli_error($this->dbObj->connection));   }
+            else{ $json = array("status" => 2, "msg" => "Error reseting  password! ".  mysqli_error(self::$dbObj->connection));   }
         }
         else{ $json = array("status" => 3, "msg" => "The email you entered does not exist in our database."); }
-        $this->dbObj->close();
+        self::$dbObj->close();
         if(array_key_exists('callback', $_GET)){
             header('Content-Type: text/javascript'); header('Access-Control-Allow-Origin: *'); header('Access-Control-Max-Age: 3628800'); header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
             return $_GET['callback'].'('.json_encode($json).');';
@@ -327,9 +327,9 @@ class User implements ContentManipulator{
     /** emailExists checks if a password truely exists in the database
      * @return Boolean True for exists, while false for not
      */
-    private function emailExists(){
+    public function emailExists(){
         $sql =  "SELECT * FROM ".self::$tableName." WHERE email = '$this->email' LIMIT 1 ";
-        $result = $this->dbObj->fetchAssoc($sql);
+        $result = self::$dbObj->fetchAssoc($sql);
         if($result != false){ return true; }
         else{ return false;    }
     }

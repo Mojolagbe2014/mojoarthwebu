@@ -22,14 +22,38 @@ if(filter_input(INPUT_POST, "email")!=NULL){
         }
     }
     //If validated and not empty submit it to database
-    if(count($errorArr) < 1)   { echo $userObj->signIn(); }
+    if(count($errorArr) < 1)   { 
+        if($userObj->emailExists()){
+            echo $userObj->signIn();
+        }
+        else{ 
+            $json = array("status" => 0, "msg" => '<strong>ACCESS DENIED !!!</strong> <br/><u>Reason</u>: The email you entered does not exist in our database.'); 
+            $dbObj->close();//Close Database Connection
+            if(array_key_exists('callback', $_GET)){
+                header('Content-Type: text/javascript');  header('Access-Control-Allow-Origin: *');  header('Access-Control-Max-Age: 3628800');  header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+                echo $_GET['callback'].'('.json_encode($json).');';
+            }else{ 
+                header('Content-Type: application/json'); 
+                echo json_encode($json); 
+
+            }
+        }
+        
+    }
     else{ 
         $json = array("status" => 0, "msg" => $errorArr); 
         $dbObj->close();//Close Database Connection
         if(array_key_exists('callback', $_GET)){
-            header('Content-Type: text/javascript'); header('Access-Control-Allow-Origin: *'); header('Access-Control-Max-Age: 3628800'); header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+            header('Content-Type: text/javascript'); 
+            header('Access-Control-Allow-Origin: *'); 
+            header('Access-Control-Max-Age: 3628800'); 
+            header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
             echo $_GET['callback'].'('.json_encode($json).');';
-        }else{ header('Content-Type: application/json'); echo json_encode($json); }
+        }else{ 
+            header('Content-Type: application/json'); 
+            echo json_encode($json); 
+            
+        }
     }
 }
 else if(filter_input(INPUT_GET, "email")!=NULL){
