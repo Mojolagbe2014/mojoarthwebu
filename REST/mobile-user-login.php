@@ -27,7 +27,7 @@ if(filter_input(INPUT_POST, "email")!=NULL){
             echo $userObj->signIn();
         }
         else{ 
-            $json = array("status" => 0, "msg" => '<strong>ACCESS DENIED !!!</strong> <br/><u>Reason</u>: The email you entered does not exist in our database.'); 
+            $json = array("status" => 0, "msg" => '<strong>ACCESS DENIED !!!</strong> <br/><u>Reason</u>: The User ID you entered does not exist in our database.'); 
             $dbObj->close();//Close Database Connection
             if(array_key_exists('callback', $_GET)){
                 header('Content-Type: text/javascript');  header('Access-Control-Allow-Origin: *');  header('Access-Control-Max-Age: 3628800');  header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');

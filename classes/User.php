@@ -313,7 +313,9 @@ class User implements ContentManipulator{
         $sql = "UPDATE ".self::$tableName." SET password = '".md5($this->password)."' WHERE email = '$this->email' ";
         if($this->emailExists()){
             $result = self::$dbObj->query($sql);
-            if($result != false){ $json = array("status" => 1, "msg" => "Done, password successfully reset! An email has been sent to you."); }
+            if($result != false){ 
+                $json = array("status" => 1, "msg" => "Done, password successfully reset! An email has been sent to you."); 
+            }
             else{ $json = array("status" => 2, "msg" => "Error reseting  password! ".  mysqli_error(self::$dbObj->connection));   }
         }
         else{ $json = array("status" => 3, "msg" => "The email you entered does not exist in our database."); }
