@@ -15,5 +15,5 @@ $bedObj = new Bed($dbObj);
 $patientObj = new Patient($dbObj);
 
 //fetch all courses
-header('Content-type: application/json');
-echo $patientObj->fetch();
+//header('Content-type: application/json');
+echo $userObj->fetch("*", "  email = 'mojolagbe@gmail.com' ", " id LIMIT 1");

@@ -132,9 +132,10 @@ class User implements ContentManipulator{
      * @param string $column Column name of the data to be fetched
      * @param string $condition Additional condition e.g category_id > 9
      * @param string $sort column name to be used as sort parameter
+     * @param boolean $endDBcon End database connection
      * @return JSON JSON encoded user details
      */
-    public function fetch($column="*", $condition="", $sort="id"){
+    public function fetch($column="*", $condition="", $sort="id", $endDBcon=true){
         $sql = "SELECT $column FROM ".self::$tableName." ORDER BY $sort";
         if(!empty($condition)){$sql = "SELECT $column FROM ".self::$tableName." WHERE $condition ORDER BY $sort";}
         $data = self::$dbObj->fetchAssoc($sql);
@@ -148,7 +149,7 @@ class User implements ContentManipulator{
             $json = array("status" => 1, "info" => $result);
         } 
         else{ $json = array("status" => 2, "msg" => "Necessary parameters not set. Or empty result. ".mysqli_error(self::$dbObj->connection)); }
-        self::$dbObj->close();
+        if($endDBcon) self::$dbObj->close();
         header('Content-type: application/json');
         return json_encode($json);
     }
