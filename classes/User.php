@@ -219,7 +219,7 @@ class User implements ContentManipulator{
      * @return JSON JSON encoded success or failure message
      */
     public function update() {
-        $sql = "UPDATE ".self::$tableName." SET name = '{$this->name}', email = '{$this->email}', company = '{$this->company}' WHERE id = $this->id ";
+        $sql = "UPDATE ".self::$tableName." SET name = '{$this->name}', address = '{$this->address}', username = '{$this->username}', picture = '{$this->picture}' WHERE id = $this->id ";
         if(!empty($this->id)){
             $result = self::$dbObj->query($sql);
             if($result !== false){ $json = array("status" => 1, "msg" => "Done, user successfully update!"); }
@@ -227,8 +227,10 @@ class User implements ContentManipulator{
         }
         else{ $json = array("status" => 3, "msg" => "Request method not accepted."); }
         self::$dbObj->close();
-        header('Content-type: application/json');
-        return json_encode($json); 
+        if(array_key_exists('callback', $_GET)){
+            header('Content-Type: text/javascript'); header('Access-Control-Allow-Origin: *'); header('Access-Control-Max-Age: 3628800'); header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+            return $_GET['callback'].'('.json_encode($json).');';
+        }else{ header('Content-Type: application/json'); return json_encode($json); }
     }
     
     /** Method that update details of a user
