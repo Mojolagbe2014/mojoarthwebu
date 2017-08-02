@@ -16,7 +16,7 @@ class Client implements ContentManipulator{
     private $status = 1;
     
     private static $dbObj;
-    private static $tableName;
+    private static $tableName = 'clients';
 
     //class constructor
     public function Client($dbObj, $tableName='clients') {

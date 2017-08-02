@@ -14,7 +14,7 @@ class User implements ContentManipulator{
     private $username;
     private $password;
     private $canAccess;
-    private $status = 1;
+    private $status = 0;
 
     private static $dbObj;
     public static $tableName = 'users';
