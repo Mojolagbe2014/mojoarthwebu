@@ -93,8 +93,38 @@ class Patient implements ContentManipulator{
         } else{ $json = array("status" => 2, "msg" => "Necessary parameters not set. Or empty result. ".mysqli_error(self::$dbObj->connection)); }
         
         self::$dbObj->close();
-        header('Content-type: application/json');
-        return json_encode($json);
+        if(array_key_exists('callback', $_GET)){
+            header('Content-Type: text/javascript'); header('Access-Control-Allow-Origin: *'); header('Access-Control-Max-Age: 3628800'); header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+            return $_GET['callback'].'('.json_encode($json).');';
+        }else{ header('Content-Type: application/json'); return json_encode($json); }
+    }
+    
+    /** Method that fetches patients from database
+     * @param string $column Column name of the data to be fetched
+     * @param string $condition Additional condition e.g patient_id > 9
+     * @param string $sort column name to be used as sort parameter
+     * @return JSON JSON encoded string/result
+     */
+    public function fetchSpecial($column="*", $condition="", $sort="id"){
+        $sql = "SELECT $column FROM ".self::$tableName." ORDER BY $sort";
+        if(!empty($condition)){$sql = "SELECT $column FROM ".self::$tableName." WHERE $condition ORDER BY $sort";}
+        $data = self::$dbObj->fetchAssoc($sql);
+        $result =array(); 
+        if(count($data)>0){
+            foreach($data as $r){
+                $result[] = array("id" => $r['id'], "name" =>  utf8_encode($r['name']), "address" =>  utf8_encode($r['address']), 
+                    "email" =>  utf8_encode($r['email']), 'clientId' =>  utf8_encode($r['client_id']),
+                    "bedId" =>  utf8_encode(Bed::getLabel(self::$dbObj, $r['bed_id'])), "admissionId" =>  utf8_encode($r['admission_id']), 
+                    "status" =>  utf8_encode($r['status']));
+            }
+            $json = array("status" => 1, "info" => $result);
+        } else{ $json = array("status" => 2, "msg" => "Necessary parameters not set. Or empty result. ".mysqli_error(self::$dbObj->connection)); }
+        
+        self::$dbObj->close();
+        if(array_key_exists('callback', $_GET)){
+            header('Content-Type: text/javascript'); header('Access-Control-Allow-Origin: *'); header('Access-Control-Max-Age: 3628800'); header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+            return $_GET['callback'].'('.json_encode($json).');';
+        }else{ header('Content-Type: application/json'); return json_encode($json); }
     }
     
     /** Method that fetches patients from database
