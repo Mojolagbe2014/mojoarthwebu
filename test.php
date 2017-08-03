@@ -1,9 +1,7 @@
 <?php
+date_default_timezone_set(timezone_name_from_abbr("CDT"));
+$date = new DateTime();
+echo $date->format('U = Y-m-d H:i:s') . "<br/>";
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-echo md5('testing');
+$date->setTimestamp(time());
+echo $date->format('U = Y-m-d H:i:s') . "<br/>";

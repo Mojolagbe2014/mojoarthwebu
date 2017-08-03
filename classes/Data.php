@@ -122,6 +122,33 @@ class Data implements ContentManipulator{
             return $_GET['callback'].'('.json_encode($json).');';
         }else{ header('Content-Type: application/json'); return json_encode($json); }
     }
+    
+    /** Method that fetches datas from database
+     * @param string $column Column clientId of the data to be fetched
+     * @param string $condition Additional condition e.g  data_id > 9
+     * @param string $sort column clientId to be used as sort parameter
+     * @return JSON JSON encoded  data details
+     */
+    public function fetchForGraph($column="*", $condition="", $sort="id"){
+        $sql = "SELECT $column FROM ".self::$tableName." ORDER BY $sort";
+        if(!empty($condition)){$sql = "SELECT $column FROM ".self::$tableName." WHERE $condition ORDER BY $sort";}
+        $data = self::$dbObj->fetchAssoc($sql);
+        $result =array(); 
+        if(count($data)>0){
+            foreach($data as $r){//"Turns Right" at 11:30hour Fri 23, 2017
+                $date = new DateTime();
+                $date->setTimestamp($r['created_at']);
+                $result[] = array(utf8_encode($date->format('Y-m-d H:i:s')), utf8_encode($r['status']));
+            }
+            $json = array($result);
+        } 
+        else{ $json = array("status" => 2, "msg" => "Empty result. ".mysqli_error(self::$dbObj->connection)); }
+        self::$dbObj->close();
+       if(array_key_exists('callback', $_GET)){
+            header('Content-Type: text/javascript'); header('Access-Control-Allow-Origin: *'); header('Access-Control-Max-Age: 3628800'); header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+            return $_GET['callback'].'('.json_encode($json).');';
+        }else{ header('Content-Type: application/json'); return json_encode($json); }
+    }
 
     /** Method that fetches datas from database
      * @param string $column Column  of the data to be fetched

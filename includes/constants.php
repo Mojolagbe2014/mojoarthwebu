@@ -11,3 +11,4 @@ define("CLASSES_PATH", __ROOT__.'/classes/');
 define("DB_CONFIG_FILE", __ROOT__.'/DbConfig/Database.php');
 define("MEDIA_FILES_PATH", '../media/');
 define("MEDIA_FILES_PATH1", SITE_URL.'media/');
+date_default_timezone_set(timezone_name_from_abbr("CDT"));

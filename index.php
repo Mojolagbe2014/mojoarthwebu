@@ -54,7 +54,7 @@ $thisPage->dbObj = $dbObj;
                         }
                     });
                     return false;
-                }, 60000);
+                }, 40000);
 
                 });
         </script>
