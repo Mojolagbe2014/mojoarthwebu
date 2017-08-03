@@ -110,15 +110,17 @@ class Data implements ContentManipulator{
         $data = self::$dbObj->fetchAssoc($sql);
         $result =array(); 
         if(count($data)>0){
-            foreach($data as $r){
-                $result[] = array("id" => $r['id'], "clientId" =>  utf8_encode($r['client_id']), "patientId" =>  utf8_encode($r['patient_id']), "bed_id" =>  utf8_encode($r['bedId']), "createdAt" =>  utf8_encode($r['created_at']), "status" =>  utf8_encode($r['status']));
+            foreach($data as $r){//"Turns Right" at 11:30hour Fri 23, 2017
+                $result[] = array("id" => $r['id'], "clientId" =>  utf8_encode($r['client_id']), "patientId" =>  utf8_encode($r['patient_id']), "patient" => utf8_encode(Patient::getSingle(self::$dbObj, 'name', $r['patient_id'])), "bedId" =>  utf8_encode($r['bed_id']), "bed" => utf8_encode(Bed::getLabel(self::$dbObj, $r['bed_id'])), "createdAt" =>  utf8_encode($r['created_at']), "status" =>  utf8_encode($r['status']));
             }
             $json = array("status" => 1, "info" => $result);
         } 
         else{ $json = array("status" => 2, "msg" => "Empty result. ".mysqli_error(self::$dbObj->connection)); }
         self::$dbObj->close();
-        header('Content-type: application/json');
-        return json_encode($json);
+       if(array_key_exists('callback', $_GET)){
+            header('Content-Type: text/javascript'); header('Access-Control-Allow-Origin: *'); header('Access-Control-Max-Age: 3628800'); header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+            return $_GET['callback'].'('.json_encode($json).');';
+        }else{ header('Content-Type: application/json'); return json_encode($json); }
     }
 
     /** Method that fetches datas from database

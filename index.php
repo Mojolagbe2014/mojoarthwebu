@@ -39,7 +39,7 @@ $thisPage->dbObj = $dbObj;
                         dataType: 'json',
                         success: function (data) {
                             console.log(data);
-                            var formatted = (new Date(timstmp*1000)).toUTCString();
+                            var formatted = (new Date(timstmp*1000));
                             $('#content').prepend('<li>@'+formatted+' => '+data.msg+'</li>');
                         },
                         error : function(xhr, status) {
